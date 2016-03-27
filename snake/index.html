@@ -3,21 +3,29 @@
    <head>
       <meta charset="utf-8">
       <title>Snake Game</title>
-      <script src="script.js"></script>
-      <link rel="stylesheet" href="style.css">
+      <script src="scripts/main.js"></script>
+      <script src="scripts/board.js"></script>
+      <script src="scripts/snake.js"></script>
+      <link rel="stylesheet" href="stylesheets/style.css">
    </head>
    <body>
       <div id="board">
          <div id="game"></div>
          <div id="info">
             <div id="points">
-
+               <div>Score:</div>
+               <div id="score">0</div>
+               <div>Snake Speed:</div>
+               <div id="speed">1</div>
             </div>
             <div id="msg">
-
+               <div id="newRndMsg">New Round!</div>
+               <div id="loseMsg">You lose! Better luck next time :P !</div>
             </div>
             <div id="rules">
-
+               <p>Press <i>Space</i> to start or restart the game.</p>
+               <p>Use <i>arrows</i> to move.</p>
+               <p>Press <i>Esc</i> to quit!</p>
             </div>
          </div>
       </div>

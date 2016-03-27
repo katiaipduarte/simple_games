@@ -1,0 +1,57 @@
+#board {
+   width: 650px;
+   #game {
+      width: 400px;
+      height: 400px;
+      margin-right: 20px;
+      position: relative;
+      border: 4px double #1D6609;
+      float: left;
+      background: #EBE2CE;
+      .snake {
+         height: 8px;
+         width: 8px;
+         position: absolute;
+         background: red;
+         border-radius: 2px;
+         -moz-border-radius: 2px;
+         -webkit-border-radius: 2px;
+         background: #EBE2CE;
+      }
+      .food {
+         height: 8px;
+         width: 8px;
+         position: absolute;
+         background: green;
+      }
+   }
+   #info {
+      width: 200px;
+      height: 400px;
+      border: 1px solid #6F5A2D;
+      border-radius: 15px;
+      -moz-border-radius: 15px;
+      -webkit-border-radius: 15px;
+      font-family: sans-serif;
+      font-weight: bold;
+      text-align: center;
+      color: #792C15;
+      background: #EBE2CE;
+      float: left;
+      #points {
+         margin: 5px;
+         height: 120px;
+         margin-top: 15px;
+      }
+      #msg {
+         font-size: 16pt;
+         margin-bottom: 35px;
+         visibility: hidden;
+         color: #E011B6;
+      }
+      #rules {
+         margin: 5px;
+         font-size: 12pt;
+      }
+   }
+}
