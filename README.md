@@ -2,4 +2,4 @@
 
 These files contain some simple games created with HTML, CSS and JS.
 
-##Snake
+1.Snake
