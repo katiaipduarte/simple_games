@@ -1,60 +1,37 @@
-var gameBoard;
-var snake;
-var moveDirection = 'right';
-var gameExecutor;
-var gameSpeed=100;
-var roundNum = 1;
+//variables
+var board, snake, started, food;
+var direction = 'right';
+var speed = 100, round = 1, foodEatenCount = 0, MAX_FOOD_ROUND = 10;
 
-var eatenItemsCount =0;
-var MAX_FOOD_ITEMS = 12;
+//board game size
+var boardWidth = 50, boardHeight = 50;
 
-//actual field size(400px) divided by corresponding bodypart size(8px)
-var gameFieldRelativeWidth = 50;
-var gameFieldRelativeHeight = 50;
-
-//width and height of snake body element
-var snakeElementWidth = 8;
-var snakeElementHeight = 8;
+//snake size
+var snakeWidth = 8, snakeHeight = 8;
 
 //game keys
-var ESC = 27;
-var SPACE = 32;
-var LEFT_ARROW = 37;
-var UP_ARROW = 38;
-var RIGHT_ARROW = 39;
-var DOWN_ARROW = 40;
-
-var food;
+var ESC = 27, SPACE = 32, LEFT_ARROW = 37, UP_ARROW = 38, RIGHT_ARROW = 39, DOWN_ARROW = 40;
 
 $(document).ready(function() {
-    $('body').keydown(keyPressedHandler);
+    $('body').keydown(onKeyPress);
 });
 
-function move() {
-   generateFood();
-   snake.move(moveDirection);
+//function that handles, what happens when pressing certain keys on the keyboard
+function onKeyPress(event) {
+   var keyCode = event.which;
    
-   if(snake.holdsPosition(food.xPos,food.yPos))
-      eatFood();
-      
-   drawSnake();
-};
-
-function keyPressedHandler(e) {
-   var code = (e.keyCode ? e.keyCode : e.which);
-   
-   switch(code) {
+   switch(keyCode) {
       case LEFT_ARROW:
-         moveDirection = 'left';
+         direction = 'left';
          break;
       case UP_ARROW:
-         moveDirection = 'up';
+         direction = 'up';
          break;
       case RIGHT_ARROW:
-         moveDirection = 'right';
+         direction = 'right';
          break;
       case DOWN_ARROW:
-         moveDirection = 'down';
+         direction = 'down';
          break;
       case SPACE:
          startGame();
@@ -63,73 +40,95 @@ function keyPressedHandler(e) {
          endGame();
          break;
    }
- }
+};
 
+//function to start the game
 function startGame() {
-   gameBoard = new GameBoard();
-   moveDirection = 'right';
-   eatenItemsCount = 0;
-   roundNum = 1;
-   gameSpeed=100;
+   board = new Board();
+   direction = 'right';
+   foodEatenCount = 0;
+   round = 1;
+   speed = 100;
+
    endGame();
-   gameBoard.clearGameInfo();
+   board.clearGameInfo();
    
-   snake = new Snake(80,80);
-   snake.onCrash(snakeCrashHandler,{xPos:400,yPos:400});
+   snake = new Snake(80, 80);
+   snake.onCrash(loseGame,{xPos:400, yPos:400});
    drawSnake();
-   gameExecutor = setInterval(move,gameSpeed);
-};
-function endGame() {
-   if(gameExecutor)
-      clearInterval(gameExecutor);
-   
-   gameBoard.clearBoard();
+   started = setInterval(moveSnake, speed);
 };
 
+//function to end the game
+function endGame() {
+   if(started) {
+      clearInterval(started);
+   }
+   
+   board.clearBoard();
+};
+
+//function that handles what happens when the game is lost
+function loseGame() {
+   endGame();
+   board.showLoseMsg();
+};
+
+//function that handles the start of a new round
+function startNextRound() {
+   round++;
+   foodEatenCount = 0;
+   board.showNextRoundMsg();
+   speed = Math.floor(speed * 0.8);
+   clearInterval(started);
+   started = setInterval(moveSnake, speed);
+};
+
+//function to draw the snake in the game board
 function drawSnake() {
-   gameBoard.removeSnakeBody();
+   board.removeSnake();
    
    //draw the new snake
-   var snakeBody = snake.getBody();
+   var body = snake.getBody();
    
-   for(var i=0; i<snakeBody.length; i++){
-      gameBoard.drawElement('bodypart',snakeBody[i].xPos,snakeBody[i].yPos);
+   for(var i = 0; i < body.length; i++) {
+      board.drawElement('snake', body[i].xPos, body[i].yPos);
    }
 };
 
-function generateFood() {
-   if(gameBoard.hasNoCreatedFood()) {
+//function to move snake
+function moveSnake() {
+   createFood();
+   snake.move(direction);
+   
+   if(snake.hasPos(food.xPos, food.yPos)) {
+      eatFood();
+   }
+      
+   drawSnake();
+};
+
+//function that generates the food
+function createFood() {
+   if(board.hasNoCreatedFood()) {
       do {
-         xpos = Math.floor(Math.random() * gameFieldRelativeWidth) * snakeElementWidth;
-         ypos = Math.floor(Math.random() * gameFieldRelativeHeight)* snakeElementHeight;
+         xPos = Math.floor(Math.random() * boardWidth) * snakeWidth;
+         yPos = Math.floor(Math.random() * boardHeight)* snakeHeight;
       }
-      while(snake.holdsPosition(xpos,ypos));
-      food = {xPos:xpos,yPos:ypos};
-      gameBoard.drawElement('food',xpos,ypos);
+      while(snake.hasPos(xPos, yPos));
+      food = {xPos:xPos, yPos:yPos};
+      board.drawElement('food', xPos, yPos);
    }
 };
 
+//function that handles the action of the snake eating the food
 function eatFood() {
    snake.eatFood();
-   gameBoard.removeSnakeFood();
+   board.removeFood();
    
-   eatenItemsCount++;
-   if(eatenItemsCount >= MAX_FOOD_ITEMS)
+   foodEatenCount++;
+   if(foodEatenCount >= MAX_FOOD_ROUND)
       startNextRound();
    
-   gameBoard.updateScore(roundNum);
-};
-
-function snakeCrashHandler() {
-   endGame();
-   gameBoard.showLoseMessage();
-};
-
-function startNextRound() {
-   roundNum++;
-   eatenItemsCount = 0;
-   gameBoard.showNextRoundMsg();
-   gameSpeed = Math.floor(gameSpeed * 0.8);
-   clearInterval(gameExecutor);
-   gameExecutor = setInterval(move,gameSpeed);
+   board.updateScore(round);
 };

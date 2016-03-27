@@ -1,13 +1,14 @@
-function GameBoard() {
+function Board() {
 
-   this.drawElement = function (classname, xpos,ypos) {
+   //draw snake in board
+   this.drawElement = function (classname, xPos,yPos) {
       var $element = $('<div/>').addClass(classname);
-      $element.css('top',ypos+'px').css('left',xpos+'px');
-      $('#gameField').append($element);
+      $element.css('top', yPos+'px').css('left', xPos+'px');
+      $('#game').append($element);
    };
 
    this.clearBoard = function(){
-      $('div.bodypart').remove();
+      $('div.snake').remove();
       $('.food').remove();
    };
 
@@ -21,29 +22,29 @@ function GameBoard() {
       return $('.food').length == 0 ;
    };
 
-   this.removeSnakeBody = function() {
-      $('div.bodypart').remove();
+   this.removeSnake = function() {
+      $('div.snake').remove();
    };
 
-   this.removeSnakeFood = function() {
+   this.removeFood = function() {
       $('.food').remove();
    };
 
    this.updateScore = function(currentRound) {
       var $currentScore = Number($('#score').html());
-      $currentScore+=currentRound;
+      $currentScore += currentRound;
       $('#score').html($currentScore);
    };
 
-   this.showLoseMessage = function(){
+   this.showLoseMsg = function(){
       $('#loseMsg').css('visibility','visible');
    };
 
    this.showNextRoundMsg = function() {
       $('#nextRndMsg').hide().css({visibility: 'visible'}).fadeIn(2000);
       $('#nextRndMsg').fadeOut(2000, function() {
-            $(this).show().css({visibility: 'hidden'});
-         });
+         $(this).show().css({visibility: 'hidden'});
+      });
 
       var $currentSpeed = Number($('#speed').html());
       $currentSpeed++;

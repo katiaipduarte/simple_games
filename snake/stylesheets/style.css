@@ -1,24 +1,24 @@
-#game {
+#board {
 	width: 650px;
 	margin: auto;
 	color: #ff3300;
 }
 
-#gameField {
+#game {
 	width: 400px;
 	height: 400px;
 	float: left;
 	margin-right: 20px;
-	border: 4px double black;
+	border: 4px double #b30086;
 	background: #c2c2d6;
 	position: relative;
 }
 
-#gameInfo {
+#info {
 	width: 200px;
 	height: 400px;
 	float: left;
-	border: 1px black solid;
+	border: 1px #b30086 solid;
 	-moz-border-radius:15px;
 	-webkit-border-radius:15px;
 	border-radius: 15px;
@@ -40,7 +40,7 @@
 	font-size: 12pt;
 }
 
-#gamemsg {
+#msg {
 	font-size: 16pt;
 	margin-bottom: 35px;
 	visibility: hidden;
@@ -54,7 +54,7 @@
 	color: green;
 }
 
-.bodypart {
+.snake {
 	height: 8px;
 	width: 8px;
 	position: absolute;
