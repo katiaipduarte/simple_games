@@ -3,24 +3,29 @@
    <head>
       <meta charset="utf-8">
       <title>Snake Game</title>
+      <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
       <script src="scripts/main.js"></script>
       <script src="scripts/board.js"></script>
       <script src="scripts/snake.js"></script>
       <link rel="stylesheet" href="stylesheets/style.css">
    </head>
    <body>
-      <div id="board">
-         <div id="game"></div>
-         <div id="info">
+      <div id="game">
+         <h1>Snake Game</h1>
+         <h2>Wanna play?</h2>
+         <br/>
+         <div id="gameField"></div>
+         <div id="gameInfo">
             <div id="points">
                <div>Score:</div>
                <div id="score">0</div>
-               <div>Snake Speed:</div>
+               <div>Snake speed:</div>
                <div id="speed">1</div>
             </div>
-            <div id="msg">
-               <div id="newRndMsg">New Round!</div>
-               <div id="loseMsg">You lose! Better luck next time :P !</div>
+            <div id="gamemsg">
+               <div id="nextRndMsg">Next Round!</div>
+               <div id="loseMsg">You lost! Better luck next time.</div> 
             </div>
             <div id="rules">
                <p>Press <i>Space</i> to start or restart the game.</p>
