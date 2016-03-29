@@ -1,0 +1,18 @@
+body {
+   text-align: center;
+}
+
+.board {
+   text-align: left;
+   width: auto;
+   height: auto;
+}
+
+h1 {
+   position: relative;
+}
+
+canvas {
+   border: 2px solid black;
+	position:relative;
+}
